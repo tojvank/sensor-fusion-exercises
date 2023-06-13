@@ -10,10 +10,6 @@
 # https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
 # ----------------------------------------------------------------------
 #
-
-##################
-# Imports
-
 # general package imports
 import os
 import sys
@@ -42,8 +38,8 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, EXA_L2)))
 # import functions from individual exercise files
 #import l2_examples
 #import l2_exercises
-#import l1_exercises
-
+import l1_exercises
+import l1_examples
 
 ##################
 # Set parameters and perform initializations
@@ -95,7 +91,7 @@ while True:
         lidar_name = dataset_pb2.LaserName.TOP
 
         # Exercise C1-3-1 : print no. of vehicles
-        #l1_exercises.print_no_of_vehicles(frame)
+        l1_exercises.print_no_of_vehicles(frame)
 
         # Example C1-3-2 : display camera image
         # l1_examples.display_image(frame)
