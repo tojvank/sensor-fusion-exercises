@@ -92,6 +92,7 @@ while True:
 
         # Exercise C1-3-1 : print no. of vehicles
         l1_exercises.print_no_of_vehicles(frame)
+        #l1_exercises.display_image(frame)
 
         # Example C1-3-2 : display camera image
         # l1_examples.display_image(frame)

@@ -61,3 +61,18 @@ def print_no_of_vehicles(frame):
             num_vehicles = num_vehicles + 1
 
     print("number of labeled vehicles in current frame = " + str(num_vehicles))
+
+# display the camera image
+# TODO: check camera.image --
+def display_image(camera):
+    # convert the image into rgb format
+    image = np.array(Image.open(io.BytesIO(camera.image)))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # resize the image to better fit the screen
+    dim = (int(image.shape[1]*0.5), int(image.shape[0]*0.5))
+    resized = cv2.resize(image, dim)
+
+    # display the image
+    cv2.imshow("Front-camera image", resized)
+    cv2.waitKey(0)
