@@ -1,28 +1,24 @@
-# ---------------------------------------------------------------------
-# "Loop over Waymo frames : Starting place for lesson exercises"
-# Copyright (C) 2020, Dr. Antje Muntzinger / Dr. Andreas Haja.
-#
-# Purpose of this file : Loop over all frames in a Waymo Open Dataset file
-#                        and perform basic operations on the data
-#
-# You should have received a copy of the Udacity license together with this program.
-#
-# https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
-# ----------------------------------------------------------------------
-#
 # general package imports
 import os
 import sys
-
+import numpy as np
+import math
+import cv2
+import matplotlib.pyplot as plt
+import copy
+import zlib
 from easydict import EasyDict as edict
 
 # Add current working directory to path
 sys.path.append(os.getcwd())
 
 # Waymo open dataset reader
-from tools.waymo_reader.simple_waymo_open_dataset_reader import WaymoDataFileReader, dataset_pb2
+from tools.waymo_reader.simple_waymo_open_dataset_reader import WaymoDataFileReader, dataset_pb2, label_pb2
+from tools.waymo_reader.simple_waymo_open_dataset_reader import utils as waymo_utils
 
 # misc. project-related imports
+import misc.objdet_tools as tools
+from misc.helpers import load_object_from_file
 
 # add exercise directories to python path to enable relative imports
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -36,22 +32,24 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, EXE_L2)))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, EXA_L2)))
 
 # import functions from individual exercise files
-#import l2_examples
-#import l2_exercises
-import l1_exercises
+import l2_examples
+import l2_exercises
 import l1_examples
+import l1_exercises
 
 ##################
 # Set parameters and perform initializations
 
 # Select Waymo Open Dataset file and frame numbers
-data_filename = 'individual_files_training_segment-10963653239323173269_1924_000_1944_000_with_camera_labels.tfrecord'
-#data_filename = 'training_segment-1005081002024129653_5313_150_5333_150_with_camera_labels.tfrecord' # Sequence 1
-#data_filename = 'training_segment-10072231702153043603_5725_000_5745_000_with_camera_labels.tfrecord' # Sequence 2
-# data_filename = 'training_segment-10963653239323173269_1924_000_1944_000_with_camera_labels.tfrecord'  # Sequence 3
+# Select a file name, we can also download that file --
+# TODO: download these files on pc
+data_filename = 'individual_files_training_segment-1005081002024129653_5313_150_5333_150_with_camera_labels.tfrecord' # Sequence 1
+# data_filename = 'individual_files_training_segment-10072231702153043603_5725_000_5745_000_with_camera_labels.tfrecord' # Sequence 2
+# data_filename = 'individual_files_training_segment-10963653239323173269_1924_000_1944_000_with_camera_labels.tfrecord'  # Sequence 3
 show_only_frames = [0, 10]  # show only frames in interval for debugging
 
 # set pause time between frames in ms (0 = stop between frames until key is pressed)
+# 10 - 10 millisecond
 vis_pause_time = 0  
 
 # Prepare Waymo Open Dataset file for loading
@@ -91,8 +89,7 @@ while True:
         lidar_name = dataset_pb2.LaserName.TOP
 
         # Exercise C1-3-1 : print no. of vehicles
-        l1_exercises.print_no_of_vehicles(frame)
-        #l1_exercises.display_image(frame)
+        # l1_exercises.print_no_of_vehicles(frame) 
 
         # Example C1-3-2 : display camera image
         # l1_examples.display_image(frame)
